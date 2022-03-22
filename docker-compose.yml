@@ -1,0 +1,41 @@
+version : '3'
+
+services:
+    webserver:
+        build :
+            context : ./docker
+            dockerfile : Dockerfile 
+        container_name : php_phalcon_api
+        ports:
+            - "9087:80"
+        networks:
+            backend-net:
+                ipv4_address: 177.28.114.10
+        links:
+            - memcached
+        depends_on :
+            - memcached
+        volumes:
+            - .:/var/www/html
+            - "./docker/timezone.ini:/usr/local/etc/php/conf.d/timezone.ini"
+            - "/etc/timezone:/etc/timezone:ro"
+            - "/etc/localtime:/etc/localtime:ro"
+            # "./docker/php.ini:/usr/local/etc/php/conf.d/php.ini"
+        command: sh /var/www/html/docker/init.sh
+
+    memcached:
+        container_name : memcached_phalcon_api
+        image: memcached:alpine
+        ports:
+            - "10214:11211"
+        networks:
+            backend-net:
+                ipv4_address: 177.28.114.12
+
+networks:
+    backend-net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 177.28.114.0/26
