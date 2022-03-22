@@ -1,5 +1,8 @@
-# Docker
+# Phalcon
+
 Docker - PHP (5.6) - Phalcon (3.4.2) - Phalcon-devtools (3.4.8) - Memcached (2.2.0)
+
+## Docker
 
 - Para la primera vez que se levanta el proyecto con docker o se cambie los archivos de docker ejecutar:
  
